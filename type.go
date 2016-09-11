@@ -40,6 +40,21 @@ func NewDocument(url string) (*Document, error) {
 	return NewDocumentFromResponse(res)
 }
 
+// With Header
+func NewDocumentWithHeader(url string, header http.Header) (*Document, error) {
+	// Load the URL
+	client := &http.Client{}
+	reqest, _ := http.NewRequest("GET", url, nil)
+
+	reqest.Header = header
+
+	res, e := client.Do(reqest)
+	if e != nil {
+		return nil, e
+	}
+	return NewDocumentFromResponse(res)
+}
+
 // NewDocumentFromReader returns a Document from a generic reader.
 // It returns an error as second value if the reader's data cannot be parsed
 // as html. It does *not* check if the reader is also an io.Closer, so the
